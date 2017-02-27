@@ -3,12 +3,12 @@ using namespace std;
 // hort[i][j]= 0 if there is bad path between (i-1,j) to (i,j) else 1
 // vert[i][j]= 0 if there is bad path between (i,j-1) to (i,j) else 1
 
-long path(int n, int m, string s[],int t)
+int path(int n, int m, string s[],int t)
 {
      int i, j;
-     long long tp[m+1][n+1];  
-     long long hort[m+1][n+1];
-     long long vert[m+1][n+1];
+     int tp[m+1][n+1];  
+     int hort[m+1][n+1];
+     int vert[m+1][n+1];
  
      tp[0][0] = 1;
      
@@ -31,12 +31,18 @@ long path(int n, int m, string s[],int t)
 	c = atoi((word.substr(0,word.find(str))).c_str());
 	word.erase(0,(word.substr(0,word.find(str))).length()+1);
 	d = atoi((word.substr(0,word.find(str))).c_str());
-	cout<<a<<" "<<b<<" "<<c<<" "<<d<<endl;
+	//cout<<a<<" "<<b<<" "<<c<<" "<<d<<endl;
 	if(a==c){
-		vert[d][a] = 0;
+		if(d>b)
+			vert[d][a] = 0;
+		else
+			vert[b][a] = 0;
 	}
 	else{
-		hort[b][c] = 0;
+		if(c>a)
+			hort[b][c] = 0;
+		else
+			hort[b][a] = 0;
 	}
      }
      for (i = 1; i <= m; i++)
@@ -76,7 +82,7 @@ long path(int n, int m, string s[],int t)
 int main(){
 int w = 6;
 int h = 6;
-string s[] = {"0 0 0 1","5 6 6 6"};
+string s[] = {"0 0 0 1","6 6 5 6"};
 int n = sizeof(s)/sizeof(s[0]);
 //cout<<n<<endl;
 int result = path(w,h,s,n);
