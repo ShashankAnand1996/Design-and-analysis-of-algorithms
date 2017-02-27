@@ -61,9 +61,9 @@ long path(int n, int m, string s[],int t)
                 if(hort[i][j]==0 && vert[i][j]==0)
                 { tp[i][j]=0; }
                else if(hort[i][j]==0)
-                { tp[i][j] = tp[i][j-1]; }
-               else if(vert[i][j]==0)
                 { tp[i][j] = tp[i-1][j]; }
+               else if(vert[i][j]==0)
+                { tp[i][j] = tp[i][j-1]; }
                else 
                 { tp[i][j]=tp[i][j-1] + tp[i-1][j]; }
           }
