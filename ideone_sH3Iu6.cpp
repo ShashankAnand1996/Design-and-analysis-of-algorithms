@@ -1,28 +1,46 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<vector>
-int lis( vector<int>& arr, int n )
+#include<bits/stdc++.h>
+using namespace std;
+int lis_fun( vector<int>& arr, int n )
 {
-    int *lis, i, j, max = 0;
+    int *lis;
     lis = (int*) malloc ( sizeof( int ) * n );
-    for (i = 0; i < n; i++ )
+    for (int i = 0; i < n; i++ )
         lis[i] = 1;
- 
-    /* Compute optimized LIS values in bottom up manner */
-    for (i = 1; i < n; i++ )
-        for (j = 0; j < i; j++ ) 
-            if ( arr[i] > arr[j] && lis[i] < lis[j] + 1)
-                lis[i] = lis[j] + 1;
- 
-    /* Pick maximum of all LIS values */
-    for (i = 0; i < n; i++ )
-        if (max < lis[i])
-            max = lis[i];
- 
-    /* Free memory to avoid memory leak */
+    
+    for (int i = 0; i < n; i++ ){
+	    int *list1;
+	    list1 = (int*) malloc ( sizeof( int ) * n );
+	    for (int m = 0; m < n; m++ )
+		list1[m] = 1;
+	    vector<int> array;
+	    for(int k=0;k<n;k++)
+		array.push_back(arr[(i+k)%n]);
+	    for(int j=1;j<n;j++){
+			if(array[j]<=array[0])
+				list1[j] = 0;
+			else{
+				for(int k=0;k<j;k++){
+					if(array[k] < array[j] && list1[j] <= list1[k] + 1)
+						list1[j] = list1[k] + 1;
+				}
+			}		
+		}
+	    int max = list1[0];
+	    for(int k = 1;k<n;k++){
+		if(list1[k]>max)
+			max = list1[k];}
+	    free(list1);
+	lis[i] = max;
+    }
+    int max = lis[0];
+    int max_index = 1;
+    for(int i=1;i<n;i++){
+		if(max<lis[i])
+			max_index = i+1;	
+	}
     free(lis);
  
-    return max;
+    return max_index;
 }
  
 /* Driver program to test above function */
@@ -36,9 +54,10 @@ int main()
 		vector <int> vec;
 		for(int j=0;j<n;j++){
 			int x;
+			cin>>x;
 			vec.push_back(x);
 		}
-	int result = lis(vec,n);
+	int result = lis_fun(vec,n);
 	cout<<result<<endl;
 	}
    return 0;
